@@ -1,5 +1,7 @@
 # IntSysCVHub
 
+Repository for training and testing object detection models.
+
 ## Dependencies
 
 This project requires the following main dependencies:
