@@ -1,0 +1,3 @@
+# exclude everything but folder itself
+model_weights/*
+!model_weights/.gitkeep
