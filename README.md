@@ -24,17 +24,17 @@ If you have trouble installing detectron2, try installing it from source with th
 
 Download the base MaskRCNN model weights from CUAir Box or Google Drive by talking to a intelligent systems member or download your own if developing a new model.
 
-## Usage
+## MaskRCNN Detection Model Training and Testing
 
 To run the project, use the following command:
 
 # Training the model (specify I/O paths in train_net.py)
 ```bash
-python detection/train_net.py --config-file detection/base_config.yaml
+python MaskRCNN/train_net.py --config-file MaskRCNN/base_config.yaml
 ```
 
 # Testing the model (specify I/O paths in test_rcnn.py)
 
 ```bash
-python test_rcnn.py
+python MaskRCNN/test_rcnn.py
 ```
