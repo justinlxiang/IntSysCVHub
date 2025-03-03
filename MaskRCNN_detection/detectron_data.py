@@ -40,6 +40,12 @@ def get_detectron_dicts(
             x2, y2 = row["bottom_right"]
             x2, y2 = min(x2, width), min(y2, width)
 
+            annotations.append({
+                "bbox": [x1, y1, x2, y2],
+                "bbox_mode": BoxMode.XYXY_ABS,
+                "category_id": row["classification"],
+            })
+
         data[idx] = {
             "file_name": file_name,
             "height": height,
