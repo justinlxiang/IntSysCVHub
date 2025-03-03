@@ -2,9 +2,7 @@ import os
 from PIL import Image
 from detectron2.config import get_cfg
 from detectron2.engine import DefaultPredictor
-from typing import List
 import numpy as np
-from roi import ROI
 
 SCORE_THRESH = 0.5
 CONFIG_FILE = os.path.join(
@@ -30,8 +28,7 @@ class MaskRCNN():
 
         self.predictor = DefaultPredictor(self.cfg)
 
-    def detect(self, image) -> List[ROI]:
-
+    def detect(self, image):
         np_img = np.array(image)
 
         output = None
@@ -41,17 +38,7 @@ class MaskRCNN():
         except Exception as e:
             print(e)
 
-        rois = []
-        for box, mask in zip(
-            output["instances"].pred_boxes, output["instances"].pred_masks
-        ):
-            x1, y1, x2, y2 = [int(coord) for coord in box]
-            cropped_img = image.crop([x1, y1, x2, y2])
-            mask = mask.detach().cpu().numpy()[y1:y2, x1:x2]
-            rois.append(ROI(cropped_img, (x1, y1), (x2, y2), mask))
-
-        return rois
-    
+        return output["instances"].pred_boxes, output["instances"].scores, output["instances"].pred_classes
 
 def crop_and_save_images(input_folder, output_folder, model_weights, config_file):
     # Ensure output folder exists
@@ -67,11 +54,12 @@ def crop_and_save_images(input_folder, output_folder, model_weights, config_file
         if os.path.isfile(img_path):
             # Open image with PIL and detect ROIs
             image = Image.open(img_path)
-            rois = model.detect(image)
+            boxes, scores, classes = model.detect(image)
             
             # Crop and save each ROI as a separate image
-            for idx, roi in enumerate(rois):
-                cropped_img = roi.image
+            for idx, box in enumerate(boxes):
+                x1, y1, x2, y2 = [int(coord) for coord in box]
+                cropped_img = image.crop([x1, y1, x2, y2])
                 cropped_img_path = os.path.join(output_folder, f"{os.path.splitext(img_name)[0]}_crop_{idx}.jpg")
                 cropped_img.save(cropped_img_path)
                 print(f"Cropped image saved to {cropped_img_path}")
@@ -79,7 +67,7 @@ def crop_and_save_images(input_folder, output_folder, model_weights, config_file
 if __name__ == "__main__":
     input_folder = "./2025_targets"
     output_folder = "./Detected_Images"
-    config_file = "./retrain_config.yaml"
-    model_weights = "./model_weights/maskrcnn_Feb_19_2024.pth"
+    config_file = "./MaskRCNN_detection/retrain_config.yaml"
+    model_weights = "./output/finetune_2025/model_final.pth"
     
     crop_and_save_images(input_folder, output_folder, model_weights, config_file)
