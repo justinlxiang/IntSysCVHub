@@ -13,7 +13,7 @@ from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
 from detectron2.data import build_detection_test_loader, build_detection_train_loader
 from detectron2.engine import DefaultTrainer, default_argument_parser, default_setup, launch
-from detectron2.evaluation import COCOEvaluator, CustomEvaluator, DatasetEvaluators, verify_results
+from detectron2.evaluation import COCOEvaluator, DatasetEvaluators, verify_results
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.utils.logger import setup_logger
 import torch
@@ -25,9 +25,9 @@ class Trainer(DefaultTrainer):
     @classmethod
     def build_evaluator(cls, cfg, dataset_name):
         output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
-        coco_eval = CustomEvaluator(dataset_name, cfg, False, output_folder)
+        # coco_eval = CustomEvaluator(dataset_name, cfg, False, output_folder)
         custom_eval = COCOEvaluator(dataset_name, cfg, False, output_folder)
-        evaluators = [custom_eval, coco_eval]
+        evaluators = [custom_eval]
         return DatasetEvaluators(evaluators)
 
     @classmethod

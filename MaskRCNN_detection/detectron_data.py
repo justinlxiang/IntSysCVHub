@@ -8,15 +8,12 @@ from enum import Enum
 
 import detectron2
 from detectron2.structures import BoxMode
-# from vision.shared.alpha import Alpha
-# from vision.shared.color import Color
-# from vision.shared.shape import Shape
 
-DATA_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "..", "data")
+DATA_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), ".")
 
 def get_detectron_dicts(
-        raw_data_path=os.path.join(DATA_PATH, '../image_analyzer/classifiers/Transfer_Learning/real_runway_imgs'), 
-        ground_truth_path=os.path.join(DATA_PATH, 'annotations_copy.csv')):
+        raw_data_path=os.path.join(DATA_PATH, '../2025_targets'), 
+        ground_truth_path=os.path.join(DATA_PATH, '../annotations2025.csv')):
     raw_data_path = os.path.abspath(raw_data_path)
     df = pd.read_csv(ground_truth_path)
     indices = df["img_name"].unique()

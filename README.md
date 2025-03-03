@@ -32,11 +32,11 @@ To run the project, use the following command:
 
 # Training the model (specify I/O paths in train_net.py)
 ```bash
-python MaskRCNN/train_net.py --config-file MaskRCNN/base_config.yaml
+python MaskRCNN_detection/train_net.py --config-file MaskRCNN_detection/retrain_config.yaml
 ```
 
 # Testing the model (specify I/O paths in test_rcnn.py)
 
 ```bash
-python MaskRCNN/test_rcnn.py
+python MaskRCNN_detection/test_rcnn.py
 ```
