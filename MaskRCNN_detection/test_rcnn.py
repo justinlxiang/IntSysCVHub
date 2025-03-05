@@ -49,12 +49,16 @@ def crop_and_save_images(input_folder, output_folder, model_weights, config_file
     model = MaskRCNN(model_weights_file=model_weights, config_file=config_file, use_gpu=False)
     
     # Iterate through images in the input folder
-    for img_name in os.listdir(input_folder):
+    for img_name in sorted(os.listdir(input_folder)):
         img_path = os.path.join(input_folder, img_name)
         if os.path.isfile(img_path):
             # Open image with PIL and detect ROIs
             image = Image.open(img_path)
             boxes, scores, classes = model.detect(image)
+
+            if len(boxes) == 0:
+                print(f"No boxes found for {img_name}")
+                continue
             
             # Crop and save each ROI as a separate image
             for idx, box in enumerate(boxes):
@@ -67,7 +71,7 @@ def crop_and_save_images(input_folder, output_folder, model_weights, config_file
 if __name__ == "__main__":
     input_folder = "./2025_targets"
     output_folder = "./Detected_Images"
-    config_file = "./MaskRCNN_detection/retrain_config.yaml"
-    model_weights = "./output/finetune_2025/model_final.pth"
+    config_file = "./MaskRCNN_detection/base_config.yaml"
+    model_weights = "./output/model_final.pth"
     
     crop_and_save_images(input_folder, output_folder, model_weights, config_file)

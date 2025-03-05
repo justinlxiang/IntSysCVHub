@@ -270,13 +270,13 @@ MODEL:
     NAME: SemSegFPNHead
     NORM: GN
     NUM_CLASSES: 54
-  WEIGHTS: ./model_weights/maskrcnn_Feb_19_2024.pth
-OUTPUT_DIR: ./output/finetune_2025
+  WEIGHTS: detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+OUTPUT_DIR: ./output
 SEED: -1
 SOLVER:
   AMP:
     ENABLED: false
-  BASE_LR: 0.0005
+  BASE_LR: 0.001
   BASE_LR_END: 0.0
   BIAS_LR_FACTOR: 1.0
   CHECKPOINT_PERIOD: 5000
@@ -288,7 +288,7 @@ SOLVER:
   GAMMA: 0.1
   IMS_PER_BATCH: 4
   LR_SCHEDULER_NAME: WarmupMultiStepLR
-  MAX_ITER: 800
+  MAX_ITER: 1600
   MOMENTUM: 0.9
   NESTEROV: false
   NUM_DECAYS: 3
@@ -298,7 +298,7 @@ SOLVER:
   - 210000
   - 250000
   WARMUP_FACTOR: 0.001
-  WARMUP_ITERS: 1000
+  WARMUP_ITERS: 400
   WARMUP_METHOD: linear
   WEIGHT_DECAY: 0.0001
   WEIGHT_DECAY_BIAS: null
