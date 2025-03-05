@@ -14,9 +14,11 @@ This project requires the following main dependencies:
 - matplotlib
 - Pillow
 
-You can install the required packages using pip:
+Make a virtual environment and install the packages:
 
 ```bash
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
