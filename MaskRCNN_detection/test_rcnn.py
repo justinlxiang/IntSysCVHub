@@ -72,6 +72,6 @@ if __name__ == "__main__":
     input_folder = "./2025_targets"
     output_folder = "./Detected_Images"
     config_file = "./MaskRCNN_detection/base_config.yaml"
-    model_weights = "./output/model_final.pth"
+    model_weights = "./model_weights/maskrcnn_0044999.pth"
     
     crop_and_save_images(input_folder, output_folder, model_weights, config_file)

@@ -15,7 +15,6 @@ model_weights/*
 *.pyd
 *.pyw
 *.pyz
-*.py
 
 /detectron2/*
 
