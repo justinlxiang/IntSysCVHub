@@ -7,16 +7,31 @@ def rotate_image(image : np.ndarray):
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+    # Define window size for local thresholding
+    window_size = 10
+    
+    # Create kernel for local mean calculation
+    kernel = np.ones((window_size, window_size), np.float32) / (window_size ** 2)
+    
+    # Calculate local mean
+    local_mean = cv2.filter2D(gray, -1, kernel)
+    
+    # Define cutoff as maximum intensity minus a margin
+    cutoff = np.max(gray) - 30
+    
+    # Create threshold mask based on local mean
+    thresh = np.where(local_mean > cutoff, 255, 0).astype(np.uint8)
+    
+    # Optional: Apply morphological operations to clean up the mask
+    # thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, np.ones((3,3), np.uint8))
+
     # # Display the grayscale image
     # cv2.imshow('Grayscale', gray)
     # cv2.waitKey(0)
 
-    # Threshold the image to get the white regions
-    _, thresh = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY)
-
     # # Display the thresholded image
-    # cv2.imshow('Thresholded', thresh)
-    # cv2.waitKey(0)
+    cv2.imshow('Thresholded', thresh)
+    cv2.waitKey(0)
 
     # Find the largest rectangle that fits inside the white region
     # First, perform distance transform to find the distance to the nearest black pixel
